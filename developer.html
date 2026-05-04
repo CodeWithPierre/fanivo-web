@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pierre Aimable — Senior iOS Engineer</title>
+<meta name="description" content="Pierre Aimable — Senior iOS Software Engineer. TD Bank, Kaiser Permanente, JPMorgan Chase. Creator of Fanivo, the World Cup 2026 prediction app.">
+<meta property="og:title" content="Pierre Aimable — Senior iOS Engineer">
+<meta property="og:description" content="Senior iOS Software Engineer with experience at TD Bank, Kaiser Permanente, and JPMorgan Chase. Creator of Fanivo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold:      #EF9F27;
+  --gold-glow: rgba(239,159,39,0.12);
+  --green:     #1D9E75;
+  --green-glow:rgba(29,158,117,0.12);
+  --bg:        #070b10;
+  --surface:   rgba(255,255,255,0.04);
+  --border:    rgba(255,255,255,0.07);
+  --text:      #f0f0f0;
+  --muted:     rgba(240,240,240,0.45);
+  --faint:     rgba(240,240,240,0.1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grid texture */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.013) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.013) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none; z-index: 0;
+}
+
+/* Glow orbs */
+.orb-gold {
+  position: fixed; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(239,159,39,0.07) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.orb-green {
+  position: fixed; bottom: -200px; left: -100px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,158,117,0.07) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Top bar */
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+  z-index: 100;
+}
+
+/* Nav */
+nav {
+  position: fixed; top: 3px; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(7,11,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  z-index: 99;
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 2px;
+  color: var(--gold); text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.8px;
+  color: var(--muted); text-decoration: none;
+  text-transform: uppercase; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+/* Main */
+main {
+  position: relative; z-index: 1;
+  max-width: 960px; margin: 0 auto;
+  padding: 130px 24px 100px;
+}
+
+/* ── HERO ── */
+.hero {
+  display: flex; align-items: flex-start; gap: 44px;
+  margin-bottom: 88px;
+  opacity: 0; transform: translateY(28px);
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.avatar-wrap { flex-shrink: 0; }
+
+.avatar {
+  width: 104px; height: 104px; border-radius: 26px;
+  background: linear-gradient(135deg, #0d2219 0%, #143320 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 38px; letter-spacing: 2px; color: white;
+  position: relative;
+  box-shadow: 0 0 0 1px rgba(29,158,117,0.3), 0 0 40px rgba(29,158,117,0.15);
+}
+
+.avatar-ring {
+  position: absolute; inset: -1px; border-radius: 27px;
+  background: linear-gradient(135deg, var(--green), var(--gold));
+  z-index: -1;
+}
+
+.availability {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 12px; justify-content: center;
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+.availability-text {
+  font-size: 10px; font-family: 'DM Mono', monospace;
+  color: var(--green); letter-spacing: 0.5px;
+}
+
+.hero-text { flex: 1; padding-top: 4px; }
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 3.5px;
+  text-transform: uppercase; color: var(--green);
+  margin-bottom: 10px;
+}
+
+.hero-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 7vw, 80px);
+  line-height: 0.88; letter-spacing: 2px;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #ffffff 50%, rgba(255,255,255,0.45));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title {
+  font-size: 16px; font-weight: 300;
+  color: var(--gold); margin-bottom: 18px;
+  letter-spacing: 0.3px;
+}
+
+.hero-bio {
+  font-size: 15px; font-weight: 300; color: var(--muted);
+  line-height: 1.7; max-width: 520px; margin-bottom: 28px;
+}
+.hero-bio strong { color: var(--text); font-weight: 500; }
+
+.social-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.social-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 17px; border-radius: 10px;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.3px;
+  text-decoration: none; border: 1px solid var(--border);
+  background: var(--surface); color: var(--muted);
+  transition: all 0.2s;
+}
+.social-btn:hover {
+  color: var(--text); border-color: rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.07); transform: translateY(-1px);
+}
+.social-btn svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── APP CARD ── */
+.apps-section {
+  margin-bottom: 80px;
+  opacity: 0; transform: translateY(24px);
+  animation: fadeUp 0.8s ease 0.12s forwards;
+}
+
+.app-card {
+  display: flex; align-items: center; gap: 28px;
+  padding: 28px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.app-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--gold-glow), transparent 55%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.app-card:hover::before { opacity: 1; }
+.app-card:hover {
+  border-color: rgba(239,159,39,0.22);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+
+.app-icon {
+  width: 76px; height: 76px; border-radius: 20px;
+  background: linear-gradient(135deg, #0b1d13, #152b1c);
+  border: 1px solid rgba(29,158,117,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; flex-shrink: 0; position: relative; z-index: 1;
+  box-shadow: 0 0 24px rgba(29,158,117,0.12);
+}
+
+.app-info { flex: 1; position: relative; z-index: 1; }
+
+.app-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px; letter-spacing: 1.5px;
+  color: var(--text); margin-bottom: 4px;
+}
+
+.app-tagline {
+  font-size: 13px; color: var(--muted);
+  line-height: 1.5; margin-bottom: 12px;
+}
+
+.tag-row { display: flex; gap: 7px; flex-wrap: wrap; }
+
+.tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 6px;
+  background: var(--green-glow);
+  border: 1px solid rgba(29,158,117,0.2);
+  color: var(--green);
+}
+.tag.gold {
+  background: var(--gold-glow);
+  border-color: rgba(239,159,39,0.2);
+  color: var(--gold);
+}
+
+.app-cta { flex-shrink: 0; position: relative; z-index: 1; }
+
+.store-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 12px;
+  background: white; color: #070b10;
+  font-size: 13px; font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+  transition: all 0.2s;
+}
+.store-btn:hover { transform: scale(1.04); }
+.store-btn svg { width: 15px; height: 15px; fill: #070b10; }
+
+.coming-soon {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px; font-weight: 500;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px; white-space: nowrap;
+}
+
+/* ── EXPERIENCE ── */
+.experience-section {
+  margin-bottom: 80px;
+  opacity: 0; transform: translateY(24px);
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+
+.exp-list { display: flex; flex-direction: column; gap: 16px; }
+
+.exp-card {
+  padding: 24px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex; align-items: flex-start; gap: 20px;
+  transition: all 0.2s;
+}
+.exp-card:hover {
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+}
+
+.exp-logo {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  font-weight: 700; font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+}
+.exp-logo.td   { background: rgba(0,91,168,0.15); border: 1px solid rgba(0,91,168,0.25); color: #4d9de8; }
+.exp-logo.kp   { background: rgba(0,130,84,0.12); border: 1px solid rgba(0,130,84,0.25); color: #2aad72; }
+.exp-logo.jp   { background: rgba(49,99,161,0.12); border: 1px solid rgba(49,99,161,0.25); color: #6b9fd4; }
+
+.exp-body { flex: 1; }
+
+.exp-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px;
+  margin-bottom: 4px;
+}
+
+.exp-company {
+  font-size: 15px; font-weight: 600; color: var(--text);
+}
+.exp-role {
+  font-size: 12px; color: var(--muted); margin-bottom: 10px;
+}
+
+.exp-period {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--muted);
+  letter-spacing: 0.5px; white-space: nowrap;
+  flex-shrink: 0; padding-top: 2px;
+}
+
+.exp-features {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+
+.exp-tag {
+  font-size: 11px; color: var(--faint);
+  padding: 3px 8px; border-radius: 5px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--muted);
+}
+
+/* ── SKILLS ── */
+.skills-section {
+  margin-bottom: 80px;
+  opacity: 0; transform: translateY(24px);
+  animation: fadeUp 0.8s ease 0.28s forwards;
+}
+
+.skills-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+}
+
+.skill-card {
+  padding: 20px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.skill-card-title {
+  font-size: 11px; font-weight: 600;
+  color: var(--muted); letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 12px;
+  font-family: 'DM Mono', monospace;
+}
+
+.skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.pill {
+  font-size: 12px; font-weight: 500;
+  padding: 5px 11px; border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(240,240,240,0.7);
+  transition: all 0.15s;
+}
+.pill:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+.pill.accent {
+  background: var(--green-glow);
+  border-color: rgba(29,158,117,0.2);
+  color: var(--green);
+}
+
+/* ── EDUCATION + CERT ── */
+.creds-section {
+  margin-bottom: 80px;
+  opacity: 0; transform: translateY(24px);
+  animation: fadeUp 0.8s ease 0.34s forwards;
+}
+
+.creds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.cred-card {
+  padding: 22px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+
+.cred-icon {
+  font-size: 22px; flex-shrink: 0; margin-top: 2px;
+}
+
+.cred-title {
+  font-size: 13px; font-weight: 600;
+  color: var(--text); margin-bottom: 4px;
+}
+.cred-sub {
+  font-size: 12px; color: var(--muted); line-height: 1.5;
+}
+.cred-badge {
+  display: inline-block; margin-top: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 1px;
+  padding: 3px 8px; border-radius: 5px;
+  background: var(--gold-glow);
+  border: 1px solid rgba(239,159,39,0.2);
+  color: var(--gold);
+}
+
+/* ── CONTACT ── */
+.contact-section {
+  opacity: 0; transform: translateY(24px);
+  animation: fadeUp 0.8s ease 0.4s forwards;
+}
+
+.contact-card {
+  padding: 36px 40px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 32px;
+  position: relative; overflow: hidden;
+}
+.contact-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--green-glow), transparent 60%);
+}
+
+.contact-text { position: relative; z-index: 1; }
+.contact-text h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px; letter-spacing: 1.5px;
+  color: var(--text); margin-bottom: 6px;
+}
+.contact-text p {
+  font-size: 14px; color: var(--muted); line-height: 1.6;
+}
+
+.contact-actions {
+  display: flex; gap: 10px; flex-shrink: 0;
+  position: relative; z-index: 1;
+}
+
+.cta-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 12px;
+  background: var(--green); color: white;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none; transition: all 0.2s;
+}
+.cta-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+.cta-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted); font-size: 14px; font-weight: 500;
+  text-decoration: none; transition: all 0.2s;
+}
+.cta-secondary:hover {
+  color: var(--text); border-color: rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.05);
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 32px 24px 48px;
+  border-top: 1px solid var(--border);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+footer a { color: var(--gold); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  main { padding: 110px 16px 80px; }
+
+  .hero { flex-direction: column; gap: 24px; }
+  .avatar { width: 80px; height: 80px; font-size: 30px; border-radius: 20px; }
+
+  .app-card { flex-direction: column; align-items: flex-start; }
+  .app-cta { width: 100%; }
+  .store-btn, .coming-soon { width: 100%; justify-content: center; }
+
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .creds-grid { grid-template-columns: 1fr; }
+
+  .contact-card { flex-direction: column; padding: 24px; }
+  .contact-actions { flex-direction: column; width: 100%; }
+  .cta-primary, .cta-secondary { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .exp-header { flex-direction: column; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<div class="orb-gold"></div>
+<div class="orb-green"></div>
+<div class="top-bar"></div>
+
+<nav>
+  <a href="#" class="nav-logo">Pierre Aimable</a>
+  <ul class="nav-links">
+    <li><a href="#apps">Apps</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="avatar-wrap">
+      <div class="avatar">
+        <div class="avatar-ring"></div>
+        PA
+      </div>
+      <div class="availability">
+        <div class="dot"></div>
+        <span class="availability-text">Open to work</span>
+      </div>
+    </div>
+
+    <div class="hero-text">
+      <p class="hero-eyebrow">iOS Software Engineer</p>
+      <h1 class="hero-name">Pierre<br>Aimable</h1>
+      <p class="hero-title">Senior iOS Engineer · Indie Developer</p>
+      <p class="hero-bio">
+        Building <strong>native iOS experiences</strong> that millions of people rely on daily —
+        from banking at TD Bank to healthcare at Kaiser Permanente to payments at JPMorgan Chase.
+        Also an <strong>indie app developer</strong> passionate about sports and great UX.
+      </p>
+      <div class="social-row">
+        <a href="https://github.com/CodeWithPierre" target="_blank" class="social-btn">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          CodeWithPierre
+        </a>
+        <a href="https://www.linkedin.com/in/pierre-aimable/" target="_blank" class="social-btn">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="mailto:iryamukurup@gmail.com" class="social-btn">
+          <svg viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+          Email
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── APPS ── -->
+  <section class="apps-section" id="apps">
+    <p class="section-label">Featured App</p>
+
+    <a href="https://apps.apple.com/app/id6763928529" target="_blank" class="app-card">
+      <div class="app-icon">⚽</div>
+      <div class="app-info">
+        <h2 class="app-name">Fanivo</h2>
+        <p class="app-tagline">World Cup 2026 prediction app. Predict matches, follow teams,<br>compete in friend leagues and climb the leaderboard.</p>
+        <div class="tag-row">
+          <span class="tag">SwiftUI</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">StoreKit</span>
+          <span class="tag">API-Football</span>
+          <span class="tag gold">World Cup 2026</span>
+          <span class="tag gold">iOS 16+</span>
+        </div>
+      </div>
+      <div class="app-cta">
+        <div class="store-btn">
+          <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          App Store
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section class="experience-section" id="experience">
+    <p class="section-label">Experience</p>
+
+    <div class="exp-list">
+
+      <div class="exp-card">
+        <div class="exp-logo td">TD</div>
+        <div class="exp-body">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">TD Bank</div>
+              <div class="exp-role">Senior iOS Developer · Remote</div>
+            </div>
+            <span class="exp-period">Nov 2021 – Present</span>
+          </div>
+          <div class="exp-features">
+            <span class="exp-tag">Credit Card Payments</span>
+            <span class="exp-tag">Income Capture</span>
+            <span class="exp-tag">Card Replacement</span>
+            <span class="exp-tag">Account Activity Redesign</span>
+            <span class="exp-tag">SwiftUI Migration</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-logo kp">KP</div>
+        <div class="exp-body">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">Kaiser Permanente</div>
+              <div class="exp-role">Senior Mobile iOS Developer · Remote</div>
+            </div>
+            <span class="exp-period">Sep 2020 – Nov 2021</span>
+          </div>
+          <div class="exp-features">
+            <span class="exp-tag">Virtual Urgent Care</span>
+            <span class="exp-tag">Coverage & Cost</span>
+            <span class="exp-tag">Find Doctor</span>
+            <span class="exp-tag">COVID-19 Vaccine Scheduling</span>
+            <span class="exp-tag">Modular Architecture</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-logo jp">JP</div>
+        <div class="exp-body">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">JPMorgan Chase</div>
+              <div class="exp-role">Senior iOS Developer · Columbus, OH</div>
+            </div>
+            <span class="exp-period">Jan 2020 – Sep 2020</span>
+          </div>
+          <div class="exp-features">
+            <span class="exp-tag">Authentication Framework</span>
+            <span class="exp-tag">Keychain & Encryption</span>
+            <span class="exp-tag">Internal iOS Frameworks</span>
+            <span class="exp-tag">FIDO Authentication</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section class="skills-section" id="skills">
+    <p class="section-label">Tech Stack</p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <p class="skill-card-title">Languages & UI</p>
+        <div class="skill-pills">
+          <span class="pill accent">Swift</span>
+          <span class="pill accent">SwiftUI</span>
+          <span class="pill">UIKit</span>
+          <span class="pill">Objective-C</span>
+          <span class="pill">Auto Layout</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <p class="skill-card-title">Architecture</p>
+        <div class="skill-pills">
+          <span class="pill accent">MVVM</span>
+          <span class="pill">Clean Architecture</span>
+          <span class="pill">VIPER</span>
+          <span class="pill">MVC</span>
+          <span class="pill">Modular iOS</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <p class="skill-card-title">Concurrency</p>
+        <div class="skill-pills">
+          <span class="pill accent">async/await</span>
+          <span class="pill">Combine</span>
+          <span class="pill">GCD</span>
+          <span class="pill">OperationQueue</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <p class="skill-card-title">Data & Networking</p>
+        <div class="skill-pills">
+          <span class="pill accent">Firebase</span>
+          <span class="pill">Core Data</span>
+          <span class="pill">REST</span>
+          <span class="pill">URLSession</span>
+          <span class="pill">Keychain</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <p class="skill-card-title">Payments & Store</p>
+        <div class="skill-pills">
+          <span class="pill accent">StoreKit 2</span>
+          <span class="pill">In-App Purchase</span>
+          <span class="pill">Subscriptions</span>
+          <span class="pill">Google AdMob</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <p class="skill-card-title">Tooling & CI/CD</p>
+        <div class="skill-pills">
+          <span class="pill accent">Xcode</span>
+          <span class="pill">Git</span>
+          <span class="pill">Jenkins</span>
+          <span class="pill">SPM</span>
+          <span class="pill">Instruments</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CREDENTIALS ── -->
+  <section class="creds-section" id="credentials">
+    <p class="section-label">Education & Certifications</p>
+    <div class="creds-grid">
+      <div class="cred-card">
+        <div class="cred-icon">🎓</div>
+        <div>
+          <p class="cred-title">Master of Science — Software Engineering</p>
+          <p class="cred-sub">Oklahoma Christian University<br>Edmond, Oklahoma</p>
+        </div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">☁️</div>
+        <div>
+          <p class="cred-title">AWS Certified Solutions Architect</p>
+          <p class="cred-sub">Professional Level (SAP-C02)</p>
+          <span class="cred-badge">2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section class="contact-section" id="contact">
+    <p class="section-label">Get In Touch</p>
+    <div class="contact-card">
+      <div class="contact-text">
+        <h3>Let's Build Together</h3>
+        <p>Open to senior iOS roles, consulting, and indie app collaborations.</p>
+      </div>
+      <div class="contact-actions">
+        <a href="mailto:iryamukurup@gmail.com" class="cta-primary">
+          Send Email
+        </a>
+        <a href="https://www.linkedin.com/in/pierre-aimable/" target="_blank" class="cta-secondary">
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    © 2026 Pierre Aimable ·
+    <a href="https://codewithpierre.github.io/fanivo-web/" target="_blank">Privacy Policy</a> ·
+    <a href="https://apps.apple.com/app/id6763928529" target="_blank">Fanivo on App Store</a>
+  </p>
+</footer>
+
+</body>
+</html>
